@@ -1,0 +1,89 @@
+mql5
+//+------------------------------------------------------------------+
+//|                            Euro Dealer                            |
+//|            Developed by Forex Robot Easy Team - forexroboteasy.com|
+//|------------------------------------------------------------------|
+//|   Terms of Reference for Euro Dealer Code Development            |
+//|------------------------------------------------------------------|
+//| 1. Develop a simplified Forex trading expert advisor (EA) called  |
+//|    Euro Dealer.                                                   |
+//| 2. Design the software with a user-friendly setup for easy use    |
+//|    by traders.                                                    |
+//| 3. Implement basic principles and time-tested strategies for an   |
+//|    effective trading approach.                                    |
+//| 4. Use EURUSD as a reference point to understand the Euro's value.|
+//| 5. Extend the reach to include EURCAD and EURJPY by scanning      |
+//|    major symbols to assess JPY and CAD values.                    |
+//| 6. Include necessary trading functions to execute the algorithm   |
+//|    effectively.                                                   |
+//| 7. Ensure the code meets the requirements of the trading          |
+//|    algorithm without any additional text or requirements.         |
+//| 8. The terms of reference should be concise, with a size of no    |
+//|    more than 1500-2000 characters.                                |
+//+------------------------------------------------------------------+
+
+// Include necessary libraries
+#include <Trade\Trade.mqh>
+
+// Input parameters
+input double LotSize = 0.01; // Lot size for trading
+input double RiskPercentage = 1.0; // Percentage of account balance to risk
+input int StopLoss = 50; // Stop loss in pips
+input int TakeProfit = 100; // Take profit in pips
+
+// Define trading variables
+int ticket; // Trade ticket number
+
+// Initialize trade object
+CTrade trade;
+
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+   // Print initialization message
+   Print('Euro Dealer initialized');
+
+   return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+   // Print deinitialization message
+   Print('Euro Dealer deinitialized');
+}
+
+//+------------------------------------------------------------------+
+//| Expert start function                                            |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+   // Check if EURUSD is trending
+   if(IsTrending('EURUSD'))
+   {
+      // Check if EURCAD and EURJPY are also trending
+      if(IsTrending('EURCAD') && IsTrending('EURJPY'))
+      {
+         // Open a buy trade for EURUSD
+         ticket = trade.Buy(LotSize);
+
+         // Set stop loss and take profit levels for the trade
+         trade.SetStopLoss(ticket, StopLoss);
+         trade.SetTakeProfit(ticket, TakeProfit);
+      }
+   }
+}
+
+//+------------------------------------------------------------------+
+//| Function to check if a symbol is trending                         |
+//+------------------------------------------------------------------+
+bool IsTrending(const string symbol)
+{
+   // Implement trending strategy here
+
+   return true; // Placeholder return value
+}
